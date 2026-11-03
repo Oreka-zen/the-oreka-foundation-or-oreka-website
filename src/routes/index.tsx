@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { ArrowRight, BookOpen, Heart, HeartHandshake, Menu, Soup, X, Sprout, ShieldCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -43,13 +43,14 @@ function Index() {
             <a className="nav-link" href="#work">What we do</a>
             <a className="nav-link" href="#mission">Our mission</a>
             <a className="nav-link" href="#get-involved">Get involved</a>
+            <Link className="nav-link" to="/contact">Contact</Link>
           </nav>
           <div className="header-actions">
             <Button variant="donate" className="donate-button" onClick={donate}><Heart size={14} /> Donate <ArrowRight size={14} /></Button>
             <Button variant="ghost" size="icon" className="mobile-toggle" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
           </div>
         </div>
-        {menuOpen && <nav className="mobile-nav" aria-label="Mobile navigation">{[['Who we are', '#about'], ['What we do', '#work'], ['Our mission', '#mission'], ['Get involved', '#get-involved']].map(([label, href]) => <a key={href} href={href} onClick={closeMenu}>{label}</a>)}</nav>}
+        {menuOpen && <nav className="mobile-nav" aria-label="Mobile navigation">{[['Who we are', '#about'], ['What we do', '#work'], ['Our mission', '#mission'], ['Get involved', '#get-involved']].map(([label, href]) => <a key={href} href={href} onClick={closeMenu}>{label}</a>)}<Link to="/contact" onClick={closeMenu}>Contact</Link></nav>}
       </header>
       <main>
         <section className="hero" id="home">
@@ -85,7 +86,7 @@ function Index() {
         </section>
         <section className="giving-section" id="get-involved"><div className="section-shell giving-inner"><div><div className="eyebrow section-eyebrow">Be part of a brighter tomorrow</div><h2>Hope grows when we give together.</h2><p>Join us in creating stronger, more hopeful communities.</p></div><Button variant="donate" onClick={donate}><Heart /> Support our mission <ArrowRight /></Button></div></section>
       </main>
-      <footer className="site-footer"><div className="footer-inner"><div className="footer-top"><div><a href="#home" className="footer-name">The Oreka Foundation</a><div className="footer-tagline">FOOD. EDUCATION. HOPE.</div></div><nav className="footer-links" aria-label="Footer navigation"><a href="#about">Who we are</a><a href="#work">Our work</a><a href="#mission">Our mission</a></nav></div><div className="footer-bottom"><div>© {new Date().getFullYear()} The Oreka Foundation. All rights reserved.</div><span>Compassion. Dignity. Opportunity.</span></div></div></footer>
+      <footer className="site-footer"><div className="footer-inner"><div className="footer-top"><div><a href="#home" className="footer-name">The Oreka Foundation</a><div className="footer-tagline">FOOD. EDUCATION. HOPE.</div></div><nav className="footer-links" aria-label="Footer navigation"><a href="#about">Who we are</a><a href="#work">Our work</a><a href="#mission">Our mission</a><Link to="/contact">Contact</Link></nav></div><div className="footer-bottom"><div>© {new Date().getFullYear()} The Oreka Foundation. All rights reserved.</div><span>Compassion. Dignity. Opportunity.</span></div></div></footer>
       <Dialog open={donationOpen} onOpenChange={setDonationOpen}><DialogContent className="donation-dialog"><Heart className="donation-symbol" /><DialogTitle>Thank you for choosing hope.</DialogTitle><DialogDescription>Online giving is not available yet. We’re preparing a secure way to support The Oreka Foundation’s work in food, education, and community care. No payment is being collected here.</DialogDescription><Button onClick={() => setDonationOpen(false)}>Continue exploring <ArrowRight /></Button><div className="flex items-center gap-2 text-xs text-muted-foreground"><ShieldCheck size={15} /> Your kindness makes a difference.</div></DialogContent></Dialog>
       <Dialog open={selectedProgram !== null} onOpenChange={(open) => { if (!open) setSelectedProgram(null) }}><DialogContent className="donation-dialog">{selectedProgram !== null && <><DialogTitle>{programs[selectedProgram]?.title}</DialogTitle><DialogDescription>{programs[selectedProgram]?.description} Our approach is rooted in compassion, dignity, and creating meaningful opportunities for individuals and families.</DialogDescription><Button onClick={() => { setSelectedProgram(null); donate() }} variant="donate">Support our mission <Heart /></Button></>}</DialogContent></Dialog>
     </>
