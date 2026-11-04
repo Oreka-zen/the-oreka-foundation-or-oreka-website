@@ -50,13 +50,13 @@ function Contact() {
     }
     setErrors({}); setStatus('sending')
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+      const res = await fetch('https://formspree.io/f/mrpprkar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...parsed.data, _subject: `Website message: ${parsed.data.topic}`, _replyto: parsed.data.email, _template: 'table', _captcha: 'false' }),
+        body: JSON.stringify({ name: parsed.data.name, email: parsed.data.email, topic: parsed.data.topic, message: parsed.data.message, _replyto: parsed.data.email, _subject: `Website message: ${parsed.data.topic}` }),
       })
       const data = await res.json().catch(() => ({}))
-      if (!res.ok || String(data.success) === 'false') throw new Error('failed')
+      if (!res.ok || data.ok !== true) throw new Error('failed')
       setStatus('sent'); form.reset()
     } catch { setStatus('error') }
   }
